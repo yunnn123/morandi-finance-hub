@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Note 01｜三帳戶預算隔離法 - 莫蘭迪理財知識庫</title>
+  <style>
+    :root {
+      --bg-primary: #F4F1EA;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #EAE6DF;
+      --morandi-green: #8FA395;
+      --morandi-blue: #8C9DAE;
+      --morandi-rose: #C49A9A;
+      --morandi-ochre: #C9B093;
+      --text-main: #4A4845;
+      --text-muted: #85817C;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --shadow-soft: 0 6px 20px rgba(74, 72, 69, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      line-height: 1.75;
+      padding: 24px 16px 60px;
+    }
+
+    .container { max-width: 920px; margin: 0 auto; }
+
+    /* 1. 頂部共用導覽列 */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 12px 20px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-brand { text-decoration: none; font-weight: 700; color: var(--text-main); font-size: 1.05rem; }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: var(--morandi-blue); color: #FFF; }
+    .nav-btn.active { background: var(--morandi-green); color: #FFF; }
+
+    /* 2. 文章標頭區 */
+    .article-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 32px 30px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+    }
+
+    .article-meta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .badge-num { background: var(--morandi-green); color: #FFF; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+    .badge-tag { background: var(--bg-subtle); color: var(--text-main); padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    .meta-time { color: var(--text-muted); font-size: 0.85rem; margin-left: auto; }
+
+    .article-header h1 { font-size: 1.65rem; margin-bottom: 10px; color: var(--text-main); }
+    .article-header p { color: var(--text-muted); font-size: 0.98rem; padding-bottom: 20px; border-bottom: 2px solid var(--bg-subtle); }
+
+    /* 3. 大學生常見痛點框 */
+    .pain-point-box {
+      background: var(--bg-primary);
+      border-left: 5px solid var(--morandi-rose);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin: 24px 0;
+    }
+
+    .pain-point-box h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 6px; }
+    .pain-point-box p { font-size: 0.92rem; color: var(--text-muted); }
+
+    /* 4. 三個核心觀念卡片 */
+    .section-h2 { font-size: 1.25rem; margin: 24px 0 16px; color: var(--text-main); }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .concept-item {
+      background: var(--bg-primary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      border-top: 4px solid var(--morandi-blue);
+    }
+
+    .concept-item:nth-child(2) { border-top-color: var(--morandi-green); }
+    .concept-item:nth-child(3) { border-top-color: var(--morandi-ochre); }
+
+    .step-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .concept-item h4 { font-size: 1.05rem; margin: 6px 0 8px; color: var(--text-main); }
+    .concept-item p { font-size: 0.88rem; color: var(--text-muted); }
+
+    /* 5. 底部實戰工具導流卡 */
+    .cta-card {
+      background: var(--bg-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px 28px;
+      text-align: center;
+      margin-top: 28px;
+    }
+
+    .cta-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .cta-card p { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 18px; }
+
+    .btn-primary {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--morandi-green);
+      color: #FFFFFF;
+      padding: 12px 26px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+
+    .page-pager {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .page-pager a { text-decoration: none; color: var(--text-main); font-weight: 600; background: var(--bg-card); padding: 10px 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-soft); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 頂部共用導覽列 -->
+    <nav class="top-nav">
+      <a href="index.html" class="nav-brand">🌿 莫蘭迪理財知識庫 & 記帳系統</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn">📚 知識庫首頁</a>
+        <a href="note-01.html" class="nav-btn active">📝 Note 01</a>
+        <a href="note-02.html" class="nav-btn">📝 Note 02</a>
+        <a href="note-03.html" class="nav-btn">📝 Note 03</a>
+        <a href="tool-budget.html" class="nav-btn">📊 記帳實戰工具</a>
+      </div>
+    </nav>
+
+    <article class="article-card">
+      <!-- 2. 文章標頭區 -->
+      <header class="article-header">
+        <div class="article-meta">
+          <span class="badge-num">Note 01</span>
+          <span class="badge-tag">#預算隔離</span>
+          <span class="badge-tag">#動態每日預算</span>
+          <span class="meta-time">⏱️ 閱讀時間 3 分鐘</span>
+        </div>
+        <h1>三帳戶預算隔離法：為什麼「飲食」與「變動支出」必須分家？</h1>
+        <p>把買書、看醫生、聚餐跟每天的便當錢混在一起記帳，是導致月底伙食費透支的最大元兇。</p>
+      </header>
+
+      <!-- 3. 大學生常見痛點框 -->
+      <div class="pain-point-box">
+        <h3>🚨 常見理財盲點：為什麼記了帳，月底還是沒錢吃飯？</h3>
+        <p>許多人習慣設定一個籠統的「每月總預算 10,000 元」。結果月初買了一件外套、繳了社團費或買了日用品（變動支出），卻沒有把這筆錢跟「每週伙食費」分開。到了月中才驚覺連吃早餐、午餐的預算都被擠壓光了。</p>
+      </div>
+
+      <!-- 4. 三個核心觀念卡片 -->
+      <h2 class="section-h2">💡 莫蘭迪三分類預算隔離實戰步驟</h2>
+      <div class="concept-grid">
+        <div class="concept-item">
+          <span class="step-label">Step 01｜固定支出快填</span>
+          <h4>月初先扣除必要固定開銷</h4>
+          <p>領到生活費的第一天，先使用系統的「固定支出快填」將房租、電話費、固定訂閱費一鍵帶入扣除，剩下的才是真正能動用的錢。</p>
+        </div>
+
+        <div class="concept-item">
+          <span class="step-label">Step 02｜飲食細項獨立控管</span>
+          <h4>7 大飲食子分類與動態日預算</h4>
+          <p>將每日伙食細分為「早餐、午餐、晚餐、點心、宵夜、飲料、其他」。系統會依當週剩餘伙食費，自動算出你「今天還能吃多少錢」。</p>
+        </div>
+
+        <div class="concept-item">
+          <span class="step-label">Step 03｜變動支出嚴格隔離</span>
+          <h4>日用品與娛樂不侵占伙食費</h4>
+          <p>購買生活雜貨或臨時開銷時，請歸類於「變動支出」。在我們的系統邏輯中，變動支出絕對不會誤扣你的每週飲食預算，確保三餐穩定。</p>
+        </div>
+      </div>
+
+      <!-- 5. 底部實戰工具導流卡 -->
+      <div class="cta-card">
+        <h3>🛠️ 將觀念化為行動：立即設定你的飲食與變動預算</h3>
+        <p>我們的「記帳與預算管理系統」已內建完整的飲食／變動支出隔離邏輯與 00:00 自動結算機制，現在就去試算看看吧！</p>
+        <a href="tool-budget.html" class="btn-primary">前往【記帳實戰工具】開始記帳 →</a>
+      </div>
+    </article>
+
+    <!-- 上下篇切換 -->
+    <div class="page-pager">
+      <a href="index.html">← 返回知識庫首頁</a>
+      <a href="note-02.html">下一篇：Note 02 悠遊卡控管與存錢術 →</a>
+    </div>
+  </div>
+
+</body>
+</html>
