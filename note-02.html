@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Note 02｜悠遊卡無痛控管與小豬撲滿存錢術 - 莫蘭迪理財知識庫</title>
+  <style>
+    :root {
+      --bg-primary: #F4F1EA;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #EAE6DF;
+      --morandi-green: #8FA395;
+      --morandi-blue: #8C9DAE;
+      --morandi-rose: #C49A9A;
+      --morandi-ochre: #C9B093;
+      --text-main: #4A4845;
+      --text-muted: #85817C;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --shadow-soft: 0 6px 20px rgba(74, 72, 69, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      line-height: 1.75;
+      padding: 24px 16px 60px;
+    }
+
+    .container { max-width: 920px; margin: 0 auto; }
+
+    /* 1. 頂部共用導覽列 */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 12px 20px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-brand { text-decoration: none; font-weight: 700; color: var(--text-main); font-size: 1.05rem; }
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none;
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover { background: var(--morandi-blue); color: #FFF; }
+    .nav-btn.active { background: var(--morandi-green); color: #FFF; }
+
+    /* 2. 文章標頭區 */
+    .article-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 32px 30px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 24px;
+    }
+
+    .article-meta {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .badge-num { background: var(--morandi-ochre); color: #FFF; padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+    .badge-tag { background: var(--bg-subtle); color: var(--text-main); padding: 4px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; }
+    .meta-time { color: var(--text-muted); font-size: 0.85rem; margin-left: auto; }
+
+    .article-header h1 { font-size: 1.65rem; margin-bottom: 10px; color: var(--text-main); }
+    .article-header p { color: var(--text-muted); font-size: 0.98rem; padding-bottom: 20px; border-bottom: 2px solid var(--bg-subtle); }
+
+    /* 3. 大學生常見痛點框 */
+    .pain-point-box {
+      background: var(--bg-primary);
+      border-left: 5px solid var(--morandi-rose);
+      border-radius: var(--radius-md);
+      padding: 18px 22px;
+      margin: 24px 0;
+    }
+
+    .pain-point-box h3 { font-size: 1.05rem; color: var(--text-main); margin-bottom: 6px; }
+    .pain-point-box p { font-size: 0.92rem; color: var(--text-muted); }
+
+    /* 4. 三個核心觀念卡片 */
+    .section-h2 { font-size: 1.25rem; margin: 24px 0 16px; color: var(--text-main); }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .concept-item {
+      background: var(--bg-primary);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      border-top: 4px solid var(--morandi-blue);
+    }
+
+    .concept-item:nth-child(2) { border-top-color: var(--morandi-green); }
+    .concept-item:nth-child(3) { border-top-color: var(--morandi-ochre); }
+
+    .step-label { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .concept-item h4 { font-size: 1.05rem; margin: 6px 0 8px; color: var(--text-main); }
+    .concept-item p { font-size: 0.88rem; color: var(--text-muted); }
+
+    /* 5. 底部實戰工具導流卡 */
+    .cta-card {
+      background: var(--bg-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px 28px;
+      text-align: center;
+      margin-top: 28px;
+    }
+
+    .cta-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+    .cta-card p { font-size: 0.92rem; color: var(--text-muted); margin-bottom: 18px; }
+
+    .btn-primary {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--morandi-green);
+      color: #FFFFFF;
+      padding: 12px 26px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+
+    .page-pager {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .page-pager a { text-decoration: none; color: var(--text-main); font-weight: 600; background: var(--bg-card); padding: 10px 18px; border-radius: var(--radius-md); box-shadow: var(--shadow-soft); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. 頂部共用導覽列 -->
+    <nav class="top-nav">
+      <a href="index.html" class="nav-brand">🌿 莫蘭迪理財知識庫 & 記帳系統</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn">📚 知識庫首頁</a>
+        <a href="note-01.html" class="nav-btn">📝 Note 01</a>
+        <a href="note-02.html" class="nav-btn active">📝 Note 02</a>
+        <a href="note-03.html" class="nav-btn">📝 Note 03</a>
+        <a href="tool-budget.html" class="nav-btn">📊 記帳實戰工具</a>
+      </div>
+    </nav>
+
+    <article class="article-card">
+      <!-- 2. 文章標頭區 -->
+      <header class="article-header">
+        <div class="article-meta">
+          <span class="badge-num">Note 02</span>
+          <span class="badge-tag">#悠遊卡連動</span>
+          <span class="badge-tag">#無痛儲蓄</span>
+          <span class="meta-time">⏱️ 閱讀時間 3 分鐘</span>
+        </div>
+        <h1>悠遊卡無痛控管與「小豬撲滿」存錢術：把每日結餘變成願望清單</h1>
+        <p>解決「加值時算一次、刷卡時忘記算」的爛帳困擾，並用微額儲蓄法無痛達成購物願望。</p>
+      </header>
+
+      <!-- 3. 大學生常見痛點框 -->
+      <div class="pain-point-box">
+        <h3>🚨 常見理財盲點：悠遊卡逼一下超無感，回過神已經花光 500 元？</h3>
+        <p>在校園與超商買飲料、搭車時，用悠遊卡結帳只需要一秒鐘。很多人把現金 500 元加值進悠遊卡後，就覺得「刷卡等於不用錢」，或是不知道到底該在「加值時記帳」還是「消費時記帳」，最後乾脆放棄追蹤。</p>
+      </div>
+
+      <!-- 4. 三個核心觀念卡片 -->
+      <h2 class="section-h2">💡 悠遊卡追蹤與每日微額存錢 3 步驟</h2>
+      <div class="concept-grid">
+        <div class="concept-item">
+          <span class="step-label">Step 01｜悠遊卡雙向連動</span>
+          <h4>首頁即時掌握卡片餘額</h4>
+          <p>在記帳工具中選擇「悠遊卡」支付時，系統除了將該筆花費計入飲食或變動支出，還會同步扣減首頁的悠遊卡餘額，再也不怕搭車時餘額不足。</p>
+        </div>
+
+        <div class="concept-item">
+          <span class="step-label">Step 02｜小豬撲滿金庫</span>
+          <h4>把每日省下的伙食費存起來</h4>
+          <p>若今天動態每日可用預算有 250 元，但你只花了 180 元，睡前即可將省下的 70 元投入「小豬撲滿」，金庫紀錄支援隨時編輯與刪除修正。</p>
+        </div>
+
+        <div class="concept-item">
+          <span class="step-label">Step 03｜自訂金額願望清單</span>
+          <h4>拒絕衝動購物，看著進度條填滿</h4>
+          <p>把想買的耳機、銀飾或課程放進願望清單！有零錢結餘時自由輸入任意金額存入，等進度條達到 100% 再買下手，享受零負罪感的犒賞。</p>
+        </div>
+      </div>
+
+      <!-- 5. 底部實戰工具導流卡 -->
+      <div class="cta-card">
+        <h3>🐷 試試看你的悠遊卡餘額追蹤與小豬撲滿！</h3>
+        <p>馬上打開記帳工具，體驗單行等寬的支付方式切換（現金／信用卡／行動支付／悠遊卡）與自訂願望清單存入功能。</p>
+        <a href="tool-budget.html" class="btn-primary">前往【記帳實戰工具】操作悠遊卡與金庫 →</a>
+      </div>
+    </article>
+
+    <!-- 上下篇切換 -->
+    <div class="page-pager">
+      <a href="note-01.html">← 上一篇：Note 01 三帳戶預算隔離法</a>
+      <a href="note-03.html">下一篇：Note 03 月底結算與緊急預備金 →</a>
+    </div>
+  </div>
+
+</body>
+</html>
