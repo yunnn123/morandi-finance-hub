@@ -1,0 +1,377 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>莫蘭迪理財知識庫 & 記帳系統</title>
+  <style>
+    :root {
+      --bg-primary: #F4F1EA;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #EAE6DF;
+      --morandi-green: #8FA395;
+      --morandi-blue: #8C9DAE;
+      --morandi-rose: #C49A9A;
+      --morandi-ochre: #C9B093;
+      --text-main: #4A4845;
+      --text-muted: #85817C;
+      --radius-lg: 20px;
+      --radius-md: 12px;
+      --shadow-soft: 0 6px 20px rgba(74, 72, 69, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      line-height: 1.7;
+      padding: 24px 16px 60px;
+    }
+
+    .container { max-width: 920px; margin: 0 auto; }
+
+    /* 頂部共用導覽列 */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 12px 20px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 1.05rem;
+    }
+
+    .nav-links { display: flex; gap: 8px; flex-wrap: wrap; }
+
+    .nav-btn {
+      text-decoration: none;
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover { background: var(--morandi-blue); color: #FFF; }
+    .nav-btn.active { background: var(--morandi-green); color: #FFF; }
+
+    /* Hero 標題區 */
+    .hero {
+      text-align: center;
+      padding: 16px 16px 30px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: 1.9rem;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero p {
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+      font-size: 0.96rem;
+    }
+
+    /* 精選互動工具橫幅卡 */
+    .tool-spotlight {
+      background: linear-gradient(135deg, #8FA395 0%, #7B9082 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 28px 30px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .tool-info { flex: 1; min-width: 260px; }
+    .tool-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.22);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .tool-info h2 { font-size: 1.4rem; margin-bottom: 8px; }
+    .tool-info p { font-size: 0.92rem; opacity: 0.94; }
+
+    .tool-cta {
+      text-decoration: none;
+      background: #FFFFFF;
+      color: var(--text-main);
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s;
+      white-space: nowrap;
+    }
+
+    .tool-cta:hover { transform: translateY(-2px); }
+
+    /* 知識庫筆記卡片牆 */
+    .section-title {
+      font-size: 1.25rem;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .section-title span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: normal;
+    }
+
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .note-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-top: 5px solid var(--morandi-blue);
+      transition: transform 0.2s;
+    }
+
+    .note-card:nth-child(2) { border-top-color: var(--morandi-ochre); }
+    .note-card:nth-child(3) { border-top-color: var(--morandi-green); }
+    .note-card:hover { transform: translateY(-4px); }
+
+    .note-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.82rem;
+    }
+
+    .note-num {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .note-time { color: var(--text-muted); }
+
+    .note-card h3 {
+      font-size: 1.12rem;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+
+    .note-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+
+    .note-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--bg-subtle);
+    }
+
+    .tag-group { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag {
+      font-size: 0.76rem;
+      color: var(--morandi-blue);
+      background: var(--bg-primary);
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .read-link {
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 700;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    .read-link:hover { color: var(--morandi-green); }
+
+    /* AI 規則說明卡 */
+    .agent-info {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-soft);
+      border-left: 5px solid var(--morandi-rose);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .agent-info strong { color: var(--text-main); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 頂部共用導覽列 -->
+    <nav class="top-nav">
+      <a href="index.html" class="nav-brand">🌿 莫蘭迪理財知識庫 & 記帳系統</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn active">📚 知識庫首頁</a>
+        <a href="note-01.html" class="nav-btn">📝 Note 01</a>
+        <a href="note-02.html" class="nav-btn">📝 Note 02</a>
+        <a href="note-03.html" class="nav-btn">📝 Note 03</a>
+        <a href="tool-budget.html" class="nav-btn">📊 記帳實戰工具</a>
+      </div>
+    </nav>
+
+    <!-- 網站標題區 -->
+    <header class="hero">
+      <span class="hero-badge">Morandi Personal Finance Wiki & Tool</span>
+      <h1>大學生無痛理財筆記與實戰系統</h1>
+      <p>結合「結構化理財觀念講義」與「純前端互動記帳工具」，透過預算隔離法則與悠遊卡控管，打造不焦慮的日常財務生活。</p>
+    </header>
+
+    <!-- 精選互動工具入口 -->
+    <section class="tool-spotlight">
+      <div class="tool-info">
+        <span class="tool-tag">🚀 核心互動實戰工具</span>
+        <h2>記帳與預算管理系統 (Web App)</h2>
+        <p>支援每日飲食細項追蹤、動態每日可用預算試算、00:00 自動結算、悠遊卡餘額連動扣款，以及小豬撲滿與自訂願望清單。</p>
+      </div>
+      <a href="tool-budget.html" class="tool-cta">立即開啟記帳系統 →</a>
+    </section>
+
+    <!-- 知識庫文章卡片牆 -->
+    <div class="section-title">
+      <h2>📚 理財觀念講義目錄</h2>
+      <span>依循 AGENTS.md 五段式規範模組化擴充</span>
+    </div>
+
+    <main class="notes-grid">
+      <!-- Note 01 卡片 -->
+      <article class="note-card">
+        <div>
+          <div class="note-meta">
+            <span class="note-num">Note 01</span>
+            <span class="note-time">⏱️ 閱讀時間 3 分鐘</span>
+          </div>
+          <h3>三帳戶預算隔離法：為什麼「飲食」與「變動支出」必須分家？</h3>
+          <p>月底總是不知不覺吃土？解析大學生最常犯的「伙食費與雜支混算」盲點，教你用固定支出快填與動態每日預算守住生活費。</p>
+        </div>
+        <div class="note-footer">
+          <div class="tag-group">
+            <span class="tag">#預算隔離</span>
+            <span class="tag">#動態每日預算</span>
+          </div>
+          <a href="note-01.html" class="read-link">閱讀筆記 →</a>
+        </div>
+      </article>
+
+      <!-- Note 02 卡片 -->
+      <article class="note-card">
+        <div>
+          <div class="note-meta">
+            <span class="note-num">Note 02</span>
+            <span class="note-time">⏱️ 閱讀時間 3 分鐘</span>
+          </div>
+          <h3>悠遊卡無痛控管與「小豬撲滿」存錢術：把每日結餘變成願望清單</h3>
+          <p>刷悠遊卡買超商總是無感？建立「加值與消費雙向追蹤」習慣，並將每日省下的伙食費結餘順手投入小豬撲滿與願望清單。</p>
+        </div>
+        <div class="note-footer">
+          <div class="tag-group">
+            <span class="tag">#悠遊卡連動</span>
+            <span class="tag">#無痛儲蓄</span>
+          </div>
+          <a href="note-02.html" class="read-link">閱讀筆記 →</a>
+        </div>
+      </article>
+
+      <!-- Note 03 卡片 (展示依 AGENTS.md 擴充之成果) -->
+      <article class="note-card">
+        <div>
+          <div class="note-meta">
+            <span class="note-num">Note 03</span>
+            <span class="note-time">⏱️ 閱讀時間 3 分鐘</span>
+          </div>
+          <h3>月底結算復盤與「緊急預備金」建立指南：如何面對突發大筆開銷？</h3>
+          <p>電腦突然壞掉、臨時要看牙醫怎麼辦？學會利用月底最高單筆消費復盤，並用小豬撲滿金庫建立專屬的安全感防線。</p>
+        </div>
+        <div class="note-footer">
+          <div class="tag-group">
+            <span class="tag">#緊急預備金</span>
+            <span class="tag">#月底結算</span>
+          </div>
+          <a href="note-03.html" class="read-link">閱讀筆記 →</a>
+        </div>
+      </article>
+    </main>
+
+    <!-- 底部說明區塊 -->
+    <section class="agent-info">
+      💡 <strong>AGENTS.md 擴充機制與跨頁狀態說明：</strong>本網站架構由 <code>AGENTS.md</code> 定義規範。未來只需向 AI 下達「新增第 04 篇理財筆記：主題名稱」，AI 即會自動套用莫蘭迪色彩變數與五段式講義模板生成 <code>note-04.html</code>，並自動於上方卡片牆新增目錄連結。<span id="home-storage-hint"></span>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const hint = document.getElementById("home-storage-hint");
+      const savedData = localStorage.getItem("morandi_budget_state_v1");
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          const txCount = parsed.transactions ? parsed.transactions.length : 0;
+          hint.innerHTML = `<br>✅ <strong>目前瀏覽器已連結帳務資料：</strong>共累計 <strong>${txCount}</strong> 筆消費紀錄，悠遊卡餘額 <strong>NT$ ${parsed.easyCardBalance || 0}</strong>。`;
+        } catch (e) {}
+      }
+    });
+  </script>
+</body>
+</html>
